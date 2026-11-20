@@ -382,6 +382,66 @@
       border-radius: 5px;
       margin-top: 8px;
     }
+    /* Custom map pins */
+
+.custom-map-icon {
+  background: transparent;
+  border: none;
+}
+
+.map-pin {
+  display: block;
+  width: 25px;
+  height: 25px;
+  border: 2px solid white;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  position: relative;
+}
+
+.map-pin::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  top: 6px;
+  left: 6px;
+}
+
+.research-pin {
+  background: #2879b9;
+}
+
+.collaborator-pin {
+  background: #8b55b8;
+}
+
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  margin-top: 18px;
+  font-size: 0.9rem;
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 7px;
+}
+
+.legend-research {
+  background: #2879b9;
+}
+
+.legend-collaborator {
+  background: #8b55b8;
+}
 
     /* Outreach and collaborations */
 
@@ -513,6 +573,17 @@
       #world-map {
         height: 400px;
       }
+      <div class="map-legend">
+  <span>
+    <span class="legend-dot legend-research"></span>
+    Research locations
+  </span>
+
+  <span>
+    <span class="legend-dot legend-collaborator"></span>
+    Collaborators
+  </span>
+</div>
     }
   </style>
 </head>
@@ -923,19 +994,101 @@
         image: "images/kiviuk-drone.jpg"
       }
     ];
+    const collaborators = [
+  {
+    name: "Customised Animal Tracking Solutions (CATS)",
+    coordinates: [-26.782, 153.13],
+    type: "collaborator",
+    description: "Customised animal tracking technology and biologging solutions for wildlife research.",
+    website: "https://www.cats.is/"
+  },
+  {
+    name: "University of Wisconsin–Green Bay",
+    coordinates: [44.531, -87.912],
+    type: "collaborator",
+    description: "University research and academic collaboration.",
+    website: "https://www.uwgb.edu/"
+  },
+  {
+    name: "GEM Lab – Dalhousie University",
+    coordinates: [44.6372, -63.5906],
+    type: "collaborator",
+    description: "Graphics and Experiential Media Lab. Research in interactive experiences, visualisation and human-computer interaction.",
+    website: "https://gem.cs.dal.ca/"
+  },
+  {
+    name: "University of New Brunswick",
+    coordinates: [45.95, -66.64],
+    type: "collaborator",
+    description: "University research and academic collaboration.",
+    website: "https://www.unb.ca/"
+  },
+  {
+    name: "COMeT Lab – Kim Davies",
+    coordinates: [45.27, -66.06],
+    type: "collaborator",
+    description: "Research laboratory led by Kim Davies. Visit the lab website to explore its team and research.",
+    website: "https://kimdavies5.wixsite.com/davieslab"
+  },
+  {
+    name: "Fortune Whale Lab",
+    coordinates: [44.6358, -63.5909],
+    type: "collaborator",
+    description: "Whale ecology and conservation research, combining animal behaviour, oceanography and foraging ecology.",
+    website: "https://www.fortunewhalelab.com/"
+  },
+  {
+    name: "DEKAMER",
+    coordinates: [36.834, 28.643],
+    type: "collaborator",
+    description: "Sea turtle research, rescue, rehabilitation and conservation centre in Dalyan, Türkiye.",
+    website: "https://dekamer.org.tr/index-eng.html"
+  }
+];
 
-    locations.forEach(function(location) {
-      const popup = `
-  <div class="map-popup">
-    <h3>${location.name}</h3>
-    <p>${location.description}</p>
-    ${location.image ? `<img src="${location.image}" alt="${location.name}">` : ""}
-  </div>
-`;
+locations.forEach(function(location) {
+ function addMapMarker(location) {
 
-      L.marker(location.coordinates)
-        .addTo(map)
-        .bindPopup(popup);
+  const websiteLink = location.website
+    ? `<p><a href="${location.website}"
+        target="_blank"
+        rel="noopener noreferrer">
+        Visit website ↗
+      </a></p>`
+    : "";
+
+  const popup = `
+    <div class="map-popup">
+      <h3>${location.name}</h3>
+      <p>${location.description}</p>
+      ${location.image
+        ? `<img src="${location.image}" alt="${location.name}">`
+        : ""}
+      ${websiteLink}
+    </div>
+  `;
+
+  const pinColour = location.type === "collaborator"
+    ? "collaborator-pin"
+    : "research-pin";
+
+  const customIcon = L.divIcon({
+    className: "custom-map-icon",
+    html: `<span class="map-pin ${pinColour}"></span>`,
+    iconSize: [25, 34],
+    iconAnchor: [13, 34],
+    popupAnchor: [0, -30]
+  });
+
+  L.marker(location.coordinates, {
+    icon: customIcon
+  })
+    .addTo(map)
+    .bindPopup(popup);
+}
+
+locations.forEach(addMapMarker);
+collaborators.forEach(addMapMarker);
     });
   </script>
 
