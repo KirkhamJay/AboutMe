@@ -926,12 +926,12 @@
 
     locations.forEach(function(location) {
       const popup = `
-        <div class="map-popup">
-          <h3>${location.name}</h3>
-          <p>${location.description}</p>
-          <p><em>Photo and additional details can be added later.</em></p>
-        </div>
-      `;
+  <div class="map-popup">
+    <h3>${location.name}</h3>
+    <p>${location.description}</p>
+    ${location.image ? `<img src="${location.image}" alt="${location.name}">` : ""}
+  </div>
+`;
 
       L.marker(location.coordinates)
         .addTo(map)
