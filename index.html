@@ -1,24 +1,928 @@
 
-<div class="profile-links">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <a href="https://www.linkedin.com/in/jaykirkham/"
-       target="_blank" rel="noopener">
-       LinkedIn ↗
-    </a>
+  <title>Jay Kirkham | Marine Research</title>
+  <meta name="description" content="Jay Kirkham is a PhD student at Dalhousie University researching the behaviour and foraging ecology of North Atlantic right whales.">
 
-    <a href="https://scholar.google.com/citations?user=pdH7r24AAAAJ&hl=en"
-       target="_blank" rel="noopener">
-       Google Scholar ↗
-    </a>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 
-    <a href="https://www.researchgate.net/profile/Jay-Kirkham-2"
-       target="_blank" rel="noopener">
-       ResearchGate ↗
-    </a>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  >
 
-    <a href="https://orcid.org/0000-0002-2782-526X"
-       target="_blank" rel="noopener">
-       ORCID: 0000-0002-2782-526X ↗
-    </a>
+  <style>
+    :root {
+      --navy: #102b3a;
+      --deep: #081e2b;
+      --teal: #168b89;
+      --light-teal: #dcefed;
+      --cream: #f6f7f4;
+      --white: #ffffff;
+      --text: #263b45;
+      --muted: #687b82;
+    }
 
-</div>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 85px;
+    }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      color: var(--text);
+      background: var(--cream);
+      line-height: 1.7;
+    }
+
+    h1, h2, h3 {
+      font-family: "Playfair Display", serif;
+      line-height: 1.2;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1120px, 90%);
+      margin: auto;
+    }
+
+    .section {
+      padding: 90px 0;
+    }
+
+    .section-heading {
+      max-width: 700px;
+      margin-bottom: 42px;
+    }
+
+    .eyebrow {
+      color: var(--teal);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-heading h2 {
+      color: var(--navy);
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 16px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+    }
+
+    /* Navigation */
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(8, 30, 43, 0.97);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-inner {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .logo {
+      color: white;
+      font-family: "Playfair Display", serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .logo span {
+      color: #54c5bd;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      color: #dce7e9;
+      font-size: 0.82rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #62d1c7;
+    }
+
+    /* Hero */
+
+    .hero {
+      min-height: 640px;
+      display: flex;
+      align-items: center;
+      color: white;
+      background:
+        linear-gradient(90deg, rgba(5, 25, 37, 0.94), rgba(5, 25, 37, 0.48)),
+        linear-gradient(135deg, #102f42, #176c73);
+      background-size: cover;
+      background-position: center;
+    }
+
+    .hero-content {
+      max-width: 760px;
+      padding: 110px 0;
+    }
+
+    .hero .eyebrow {
+      color: #76d9d0;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 7vw, 5.6rem);
+      margin-bottom: 24px;
+    }
+
+    .hero h1 span {
+      color: #75d6ce;
+    }
+
+    .hero p {
+      max-width: 650px;
+      color: #dce8e9;
+      font-size: 1.12rem;
+      margin-bottom: 32px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 13px 23px;
+      border-radius: 5px;
+      background: var(--teal);
+      color: white;
+      font-weight: 700;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .button:hover {
+      background: #0e706f;
+      transform: translateY(-2px);
+    }
+
+    .button-outline {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.65);
+      margin-left: 10px;
+    }
+
+    .button-outline:hover {
+      background: rgba(255,255,255,0.12);
+    }
+
+    /* About */
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 55px;
+      align-items: center;
+    }
+
+    .photo-placeholder {
+      min-height: 390px;
+      border-radius: 10px;
+      background: linear-gradient(145deg, #c6dedb, #668d94);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 30px;
+      color: #163c48;
+      font-weight: 600;
+    }
+
+    .about-copy h2 {
+      color: var(--navy);
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .about-copy p {
+      margin-bottom: 16px;
+      color: var(--muted);
+    }
+
+    /* Research */
+
+    .research-section {
+      background: #eaf1ef;
+    }
+
+    .research-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .research-card {
+      padding: 30px;
+      background: white;
+      border-radius: 8px;
+      border-top: 4px solid var(--teal);
+      box-shadow: 0 8px 25px rgba(16,43,58,0.05);
+    }
+
+    .research-card h3 {
+      color: var(--navy);
+      font-size: 1.35rem;
+      margin-bottom: 12px;
+    }
+
+    .research-card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* Fieldwork */
+
+    .fieldwork-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .fieldwork-photo {
+      min-height: 220px;
+      padding: 20px;
+      border-radius: 8px;
+      background: linear-gradient(145deg, #d5e5e1, #789ca0);
+      display: flex;
+      align-items: end;
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    /* Publications */
+
+    .publications-section {
+      background: white;
+    }
+
+    .publication-note {
+      background: var(--cream);
+      border-left: 4px solid var(--teal);
+      padding: 24px;
+      border-radius: 5px;
+      color: var(--muted);
+    }
+
+    /* Shiny applications */
+
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .app-card {
+      background: white;
+      border-radius: 9px;
+      padding: 28px;
+      box-shadow: 0 8px 25px rgba(16,43,58,0.06);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .app-icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      background: var(--light-teal);
+      color: var(--teal);
+      border-radius: 9px;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+
+    .app-card h3 {
+      color: var(--navy);
+      font-size: 1.35rem;
+      margin-bottom: 12px;
+    }
+
+    .app-card p {
+      color: var(--muted);
+      margin-bottom: 22px;
+      flex-grow: 1;
+    }
+
+    /* Map */
+
+    .map-section {
+      background: #eaf1ef;
+    }
+
+    #world-map {
+      height: 520px;
+      width: 100%;
+      border-radius: 9px;
+      border: 1px solid #d1ddda;
+      z-index: 1;
+    }
+
+    .map-note {
+      margin-top: 15px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .map-popup h3 {
+      margin-bottom: 7px;
+      color: var(--navy);
+    }
+
+    .map-popup p {
+      margin-bottom: 7px;
+    }
+
+    .map-popup img {
+      width: 100%;
+      max-height: 130px;
+      object-fit: cover;
+      border-radius: 5px;
+      margin-top: 8px;
+    }
+
+    /* Outreach and collaborations */
+
+    .outreach-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .outreach-card {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 8px 25px rgba(16,43,58,0.05);
+    }
+
+    .outreach-card h3 {
+      color: var(--navy);
+      margin-bottom: 12px;
+      font-size: 1.4rem;
+    }
+
+    .outreach-card p {
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .text-link {
+      color: var(--teal);
+      font-weight: 700;
+    }
+
+    .text-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Contact */
+
+    .contact-section {
+      background: var(--deep);
+      color: white;
+      text-align: center;
+    }
+
+    .contact-section h2 {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+    }
+
+    .contact-section p {
+      color: #c1d2d6;
+      max-width: 620px;
+      margin: 0 auto 28px;
+    }
+
+    .profile-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .profile-links a {
+      padding: 10px 16px;
+      border: 1px solid #55727d;
+      border-radius: 5px;
+      color: white;
+      font-size: 0.9rem;
+    }
+
+    .profile-links a:hover {
+      background: var(--teal);
+      border-color: var(--teal);
+    }
+
+    footer {
+      background: #061722;
+      color: #9aafb6;
+      text-align: center;
+      padding: 22px;
+      font-size: 0.85rem;
+    }
+
+    /* Mobile layout */
+
+    @media (max-width: 850px) {
+      .nav-inner {
+        padding: 16px 0;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        gap: 12px 17px;
+      }
+
+      .about-grid,
+      .research-grid,
+      .apps-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero {
+        min-height: 550px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .section {
+        padding: 65px 0;
+      }
+
+      .about-grid,
+      .research-grid,
+      .fieldwork-grid,
+      .apps-grid,
+      .outreach-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: 520px;
+      }
+
+      .button-outline {
+        margin: 12px 0 0;
+      }
+
+      #world-map {
+        height: 400px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <a class="logo" href="#home">JAY <span>KIRKHAM</span></a>
+
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#research">Research</a>
+        <a href="#fieldwork">Fieldwork</a>
+        <a href="#publications">Publications</a>
+        <a href="#apps">Shiny Apps</a>
+        <a href="#locations">Locations</a>
+        <a href="#collaborations">Collaborations</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" id="home">
+    <div class="container hero-content">
+      <div class="eyebrow">Marine Research · Marine Mammal Ecology</div>
+
+      <h1>Understanding life<br>beneath the <span>waves.</span></h1>
+
+      <p>
+        I'm Jay Kirkham, a PhD student at Dalhousie University
+        studying the behaviour and foraging ecology of North
+        Atlantic right whales.
+      </p>
+
+      <a class="button" href="#research">Explore my research</a>
+      <a class="button button-outline" href="#about">About me</a>
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <div class="container about-grid">
+
+      <div class="photo-placeholder">
+        Your photograph will go here later
+        <br>
+        images/about-jay.jpg
+      </div>
+
+      <div class="about-copy">
+        <div class="eyebrow">About me</div>
+        <h2>Jay Kirkham</h2>
+
+        <p>
+          I am a PhD student at Dalhousie University with an
+          interest in marine mammal ecology, animal behaviour,
+          and the ecology of marine ecosystems.
+        </p>
+
+        <p>
+          My doctoral research focuses on the behaviour and
+          foraging ecology of North Atlantic right whales,
+          an endangered species whose survival is closely
+          connected to the health of the ocean.
+        </p>
+
+        <p>
+          This website brings together my research,
+          fieldwork, publications, collaborations, and
+          interactive scientific applications.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section class="section research-section" id="research">
+    <div class="container">
+
+      <div class="section-heading">
+        <div class="eyebrow">Research interests</div>
+        <h2>Exploring marine ecosystems</h2>
+        <p>
+          My research uses ecological and behavioural
+          approaches to better understand marine animals
+          and the environments they depend on.
+        </p>
+      </div>
+
+      <div class="research-grid">
+
+        <article class="research-card">
+          <h3>North Atlantic Right Whales</h3>
+          <p>
+            Investigating the behaviour and ecology of
+            North Atlantic right whales, an endangered
+            species found in the western North Atlantic.
+          </p>
+        </article>
+
+        <article class="research-card">
+          <h3>Foraging Ecology</h3>
+          <p>
+            Exploring how marine animals find and use
+            food resources, and how environmental
+            conditions influence foraging behaviour.
+          </p>
+        </article>
+
+        <article class="research-card">
+          <h3>Animal Behaviour</h3>
+          <p>
+            Understanding how marine animals interact
+            with their environment and how behaviour
+            can inform conservation and management.
+          </p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FIELDWORK -->
+  <section class="section" id="fieldwork">
+    <div class="container">
+
+      <div class="section-heading">
+        <div class="eyebrow">In the field</div>
+        <h2>Fieldwork and experiences</h2>
+        <p>
+          A collection of fieldwork, research experiences,
+          and places connected to my work.
+        </p>
+      </div>
+
+      <div class="fieldwork-grid">
+        <div class="fieldwork-photo">
+          Add fieldwork photo 1
+        </div>
+
+        <div class="fieldwork-photo">
+          Add fieldwork photo 2
+        </div>
+
+        <div class="fieldwork-photo">
+          Add fieldwork photo 3
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section class="section publications-section" id="publications">
+    <div class="container">
+
+      <div class="section-heading">
+        <div class="eyebrow">Scientific contributions</div>
+        <h2>Publications</h2>
+        <p>
+          Research papers, scientific contributions,
+          and academic work.
+        </p>
+      </div>
+
+      <div class="publication-note">
+        Publication details will be added here. In the meantime,
+        you can visit my Google Scholar profile using the link
+        in the contact section below.
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SHINY APPLICATIONS -->
+  <section class="section" id="apps">
+    <div class="container">
+
+      <div class="section-heading">
+        <div class="eyebrow">Interactive research tools</div>
+        <h2>Shiny applications</h2>
+        <p>
+          Interactive applications developed to explore,
+          visualize, and communicate scientific data.
+        </p>
+      </div>
+
+      <div class="apps-grid">
+
+        <article class="app-card">
+          <div class="app-icon">🌊</div>
+          <h3>Med Turtle Map</h3>
+          <p>
+            Explore the interactive Mediterranean turtle
+            mapping application.
+          </p>
+          <a class="button"
+             href="https://0uq6q4-jay-kirkham.shinyapps.io/Med_Turtle_Map/"
+             target="_blank" rel="noopener noreferrer">
+            Open application
+          </a>
+        </article>
+
+        <article class="app-card">
+          <div class="app-icon">📈</div>
+          <h3>Signal Simulation 1</h3>
+          <p>
+            Explore the interactive signal simulation
+            application.
+          </p>
+          <a class="button"
+             href="https://0uq6q4-jay-kirkham.shinyapps.io/Signal_Simulation_1/"
+             target="_blank" rel="noopener noreferrer">
+            Open application
+          </a>
+        </article>
+
+        <article class="app-card">
+          <div class="app-icon">🦠</div>
+          <h3>PlanktonPlotter</h3>
+          <p>
+            Explore the interactive PlanktonPlotter
+            application.
+          </p>
+          <a class="button"
+             href="https://0uq6q4-jay-kirkham.shinyapps.io/PlanktonPlotter/"
+             target="_blank" rel="noopener noreferrer">
+            Open application
+          </a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- RESEARCH LOCATIONS MAP -->
+  <section class="section map-section" id="locations">
+    <div class="container">
+
+      <div class="section-heading">
+        <div class="eyebrow">Research around the world</div>
+        <h2>Research locations</h2>
+        <p>
+          Explore locations connected to my research
+          and professional experiences. Select a marker
+          to see its location information.
+        </p>
+      </div>
+
+      <div id="world-map"></div>
+
+      <p class="map-note">
+        Map markers are approximate regional locations.
+        They can be adjusted as the website is developed.
+      </p>
+
+    </div>
+  </section>
+
+  <!-- COLLABORATIONS AND OUTREACH -->
+  <section class="section" id="collaborations">
+    <div class="container">
+
+      <div class="section-heading">
+        <div class="eyebrow">Working together</div>
+        <h2>Collaborations and outreach</h2>
+        <p>
+          Research depends on collaboration, knowledge
+          sharing, and connections across scientific
+          communities.
+        </p>
+      </div>
+
+      <div class="outreach-grid">
+
+        <article class="outreach-card">
+          <h3>Fortune Whale Lab</h3>
+          <p>
+            Learn more about the Fortune Whale Lab and
+            its marine mammal research.
+          </p>
+          <a class="text-link"
+             href="https://www.fortunewhalelab.com/"
+             target="_blank" rel="noopener noreferrer">
+            Visit Fortune Whale Lab →
+          </a>
+        </article>
+
+        <article class="outreach-card">
+          <h3>DEKAMER</h3>
+          <p>
+            Learn more about DEKAMER and its marine
+            turtle research and conservation work.
+          </p>
+          <a class="text-link"
+             href="https://dekamer.org.tr/index-eng.html"
+             target="_blank" rel="noopener noreferrer">
+            Visit DEKAMER →
+          </a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section contact-section" id="contact">
+    <div class="container">
+
+      <div class="eyebrow">Get in touch</div>
+      <h2>Let's connect.</h2>
+
+      <p>
+        For research collaborations, scientific questions,
+        or professional inquiries, connect with me through
+        my academic and professional profiles.
+      </p>
+
+      <div class="profile-links">
+
+        <a href="https://www.linkedin.com/in/jaykirkham/"
+           target="_blank" rel="noopener noreferrer">
+          LinkedIn
+        </a>
+
+        <a href="https://scholar.google.com/citations?user=pdH7r24AAAAJ&hl=en"
+           target="_blank" rel="noopener noreferrer">
+          Google Scholar
+        </a>
+
+        <a href="https://www.researchgate.net/profile/Jay-Kirkham-2"
+           target="_blank" rel="noopener noreferrer">
+          ResearchGate
+        </a>
+
+        <a href="https://orcid.org/0000-0002-2782-526X"
+           target="_blank" rel="noopener noreferrer">
+          ORCID
+        </a>
+
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    © 2026 Jay Kirkham · Marine Research · Dalhousie University
+  </footer>
+
+  <!-- MAP SCRIPT -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    const map = L.map("world-map").setView([48, -20], 2);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 18
+    }).addTo(map);
+
+    const locations = [
+      {
+        name: "St Andrews, Scotland",
+        coordinates: [56.3398, -2.7967],
+        description: "Research and professional location."
+      },
+      {
+        name: "Islay, Scotland",
+        coordinates: [55.75, -6.29],
+        description: "Research and professional location."
+      },
+      {
+        name: "Newcastle, England",
+        coordinates: [54.9783, -1.6178],
+        description: "Research and professional location."
+      },
+      {
+        name: "Dalyan, Türkiye",
+        coordinates: [36.834, 28.643],
+        description: "Research and professional location."
+      },
+      {
+        name: "Shediac Valley, Canada",
+        coordinates: [46.1, -63.5],
+        description: "Approximate regional marker."
+      },
+      {
+        name: "Bay of Fundy, Canada",
+        coordinates: [44.945579, -65.386626],
+        description: "Research and professional location."
+      },
+      {
+        name: "Davis Strait, Canada",
+        coordinates: [65, -58],
+        description: "Approximate regional marker."
+      }
+    ];
+
+    locations.forEach(function(location) {
+      const popup = `
+        <div class="map-popup">
+          <h3>${location.name}</h3>
+          <p>${location.description}</p>
+          <p><em>Photo and additional details can be added later.</em></p>
+        </div>
+      `;
+
+      L.marker(location.coordinates)
+        .addTo(map)
+        .bindPopup(popup);
+    });
+  </script>
+
+</body>
+</html>
