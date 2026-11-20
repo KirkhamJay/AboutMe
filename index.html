@@ -1,0 +1,679 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Marine Researcher | Professional Portfolio</title>
+
+<meta name="description" content="Professional portfolio of a marine researcher specializing in ocean science, marine ecosystems, and conservation.">
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --navy: #092b3a;
+    --blue: #12647b;
+    --teal: #45a6a0;
+    --light: #f3f8f8;
+    --white: #ffffff;
+    --text: #243b45;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    line-height: 1.7;
+    background: white;
+}
+
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* NAVIGATION */
+
+header {
+    background: rgba(9,43,58,0.97);
+    color: white;
+    padding: 18px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+nav {
+    display: flex;
+    gap: 28px;
+}
+
+nav a {
+    font-size: 14px;
+    color: #e3eeee;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: #65c8bd;
+}
+
+.menu-toggle {
+    display: none;
+    cursor: pointer;
+    font-size: 26px;
+}
+
+/* HERO */
+
+.hero {
+    min-height: 100vh;
+    background:
+    linear-gradient(rgba(4,28,43,0.57), rgba(4,28,43,0.75)),
+    url('https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=2000&q=85')
+    center/cover;
+    display: flex;
+    align-items: center;
+    padding: 140px 10% 90px;
+    color: white;
+}
+
+.hero-content {
+    max-width: 750px;
+}
+
+.hero-label {
+    color: #80d7ce;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.hero h1 {
+    font-size: clamp(44px, 7vw, 78px);
+    line-height: 1.12;
+    margin: 22px 0;
+}
+
+.hero p {
+    font-size: 19px;
+    max-width: 600px;
+    color: #e0ebee;
+    margin-bottom: 35px;
+}
+
+.button {
+    display: inline-block;
+    padding: 13px 27px;
+    background: var(--teal);
+    color: white;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.button:hover {
+    background: #267e7b;
+    transform: translateY(-3px);
+}
+
+.button-outline {
+    background: transparent;
+    border: 1px solid white;
+    margin-left: 12px;
+}
+
+.button-outline:hover {
+    background: white;
+    color: var(--navy);
+}
+
+/* GENERAL SECTIONS */
+
+section {
+    padding: 100px 10%;
+}
+
+.section-label {
+    color: var(--teal);
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.section-title {
+    color: var(--navy);
+    font-size: 42px;
+    margin: 12px 0 25px;
+}
+
+.section-description {
+    max-width: 700px;
+    color: #657780;
+}
+
+/* ABOUT */
+
+.about {
+    background: var(--light);
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 65px;
+    align-items: center;
+}
+
+.about-image {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.about-text p {
+    margin-bottom: 18px;
+    color: #5d7078;
+}
+
+/* RESEARCH */
+
+.research-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-top: 45px;
+}
+
+.research-card {
+    background: var(--light);
+    padding: 35px 28px;
+    border-bottom: 4px solid var(--teal);
+    transition: 0.3s;
+}
+
+.research-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+.research-icon {
+    font-size: 35px;
+    margin-bottom: 15px;
+}
+
+.research-card h3 {
+    font-size: 23px;
+    color: var(--navy);
+    margin-bottom: 12px;
+}
+
+.research-card p {
+    font-size: 14px;
+    color: #647780;
+}
+
+/* FIELDWORK */
+
+.fieldwork {
+    background: var(--navy);
+    color: white;
+}
+
+.fieldwork .section-title {
+    color: white;
+}
+
+.fieldwork .section-description {
+    color: #c2d5da;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.gallery img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.gallery img:hover {
+    transform: scale(1.025);
+}
+
+/* PUBLICATIONS */
+
+.publication {
+    padding: 25px 0;
+    border-bottom: 1px solid #dce5e8;
+}
+
+.publication h3 {
+    color: var(--navy);
+    font-size: 21px;
+    margin-bottom: 8px;
+}
+
+.publication p {
+    color: #71828a;
+    font-size: 14px;
+}
+
+.publication a {
+    color: var(--blue);
+    font-weight: 700;
+    font-size: 13px;
+}
+
+/* CONTACT */
+
+.contact {
+    background: var(--light);
+}
+
+.contact-box {
+    background: white;
+    padding: 45px;
+    max-width: 750px;
+    margin-top: 35px;
+    border-left: 5px solid var(--teal);
+}
+
+.contact-box p {
+    margin: 12px 0;
+}
+
+/* FOOTER */
+
+footer {
+    background: #061f2b;
+    color: #b8cbd1;
+    text-align: center;
+    padding: 35px 10%;
+    font-size: 13px;
+}
+
+footer a {
+    color: #70c9c0;
+}
+
+/* MOBILE */
+
+@media(max-width: 850px) {
+    header {
+        padding: 18px 6%;
+    }
+
+    nav {
+        display: none;
+        position: absolute;
+        top: 65px;
+        left: 0;
+        width: 100%;
+        background: var(--navy);
+        flex-direction: column;
+        padding: 25px;
+        gap: 18px;
+    }
+
+    nav.active {
+        display: flex;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    section {
+        padding: 75px 7%;
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .research-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .gallery {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        padding-left: 7%;
+        padding-right: 7%;
+    }
+
+    .section-title {
+        font-size: 34px;
+    }
+
+    .button-outline {
+        margin: 12px 0 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">MARINE SCIENCE.</div>
+
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+    <nav id="navigation">
+        <a href="#home" onclick="closeMenu()">Home</a>
+        <a href="#about" onclick="closeMenu()">About</a>
+        <a href="#research" onclick="closeMenu()">Research</a>
+        <a href="#fieldwork" onclick="closeMenu()">Fieldwork</a>
+        <a href="#publications" onclick="closeMenu()">Publications</a>
+        <a href="#contact" onclick="closeMenu()">Contact</a>
+    </nav>
+</header>
+
+<!-- HOME -->
+
+<section class="hero" id="home">
+    <div class="hero-content">
+        <div class="hero-label">Marine Researcher & Scientist</div>
+
+        <h1>Exploring Our Oceans. Understanding Our Planet.</h1>
+
+        <p>
+            Welcome to my professional research portfolio.
+            I am passionate about understanding marine ecosystems,
+            advancing ocean science, and contributing to the
+            protection of our marine environments.
+        </p>
+
+        <a href="#research" class="button">Explore My Research</a>
+        <a href="#contact" class="button button-outline">Get In Touch</a>
+    </div>
+</section>
+
+<!-- ABOUT -->
+
+<section class="about" id="about">
+    <div class="about-grid">
+
+        <div>
+            <div class="section-label">About Me</div>
+            <h2 class="section-title">Dedicated to Understanding Our Oceans</h2>
+
+            <div class="about-text">
+                <p>
+                    My name is <strong>[Your Name]</strong>, and I am a
+                    marine researcher interested in understanding
+                    the complex biological, chemical, and physical
+                    processes that shape our oceans.
+                </p>
+
+                <p>
+                    My work focuses on marine ecosystems, ocean
+                    sustainability, biodiversity, and the impacts
+                    of environmental change on marine organisms
+                    and habitats.
+                </p>
+
+                <p>
+                    Through scientific research, fieldwork, data
+                    analysis, and collaboration, I aim to contribute
+                    meaningful knowledge to the marine science
+                    community.
+                </p>
+            </div>
+
+            <a href="#contact" class="button">Contact Me</a>
+        </div>
+
+        <img class="about-image"
+        src="https://images.unsplash.com/photo-1530053969600-caed2596d242?auto=format&fit=crop&w=1000&q=85"
+        alt="Marine underwater research environment">
+    </div>
+</section>
+
+<!-- RESEARCH -->
+
+<section id="research">
+    <div class="section-label">Scientific Interests</div>
+    <h2 class="section-title">Research Areas</h2>
+
+    <p class="section-description">
+        My research interests span several important areas
+        of marine science and ocean research.
+    </p>
+
+    <div class="research-grid">
+
+        <div class="research-card">
+            <div class="research-icon">🌊</div>
+            <h3>Oceanography</h3>
+            <p>
+                Investigating ocean processes, circulation,
+                marine environments, and the relationship
+                between oceans and global climate systems.
+            </p>
+        </div>
+
+        <div class="research-card">
+            <div class="research-icon">🐠</div>
+            <h3>Marine Biodiversity</h3>
+            <p>
+                Studying marine organisms, species diversity,
+                ecosystem interactions, and the conservation
+                of aquatic life.
+            </p>
+        </div>
+
+        <div class="research-card">
+            <div class="research-icon">🪸</div>
+            <h3>Marine Conservation</h3>
+            <p>
+                Exploring conservation strategies, habitat
+                protection, and the long-term sustainability
+                of marine ecosystems.
+            </p>
+        </div>
+
+        <div class="research-card">
+            <div class="research-icon">🔬</div>
+            <h3>Marine Ecology</h3>
+            <p>
+                Understanding ecological relationships,
+                biological communities, and environmental
+                influences within marine ecosystems.
+            </p>
+        </div>
+
+        <div class="research-card">
+            <div class="research-icon">🌡️</div>
+            <h3>Climate Change</h3>
+            <p>
+                Investigating ocean warming, acidification,
+                and the effects of climate change on
+                marine environments.
+            </p>
+        </div>
+
+        <div class="research-card">
+            <div class="research-icon">🧪</div>
+            <h3>Marine Science</h3>
+            <p>
+                Applying scientific methods, laboratory
+                techniques, and data analysis to advance
+                our understanding of the ocean.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<!-- FIELDWORK -->
+
+<section class="fieldwork" id="fieldwork">
+    <div class="section-label">Research In Action</div>
+    <h2 class="section-title">Fieldwork & Exploration</h2>
+
+    <p class="section-description">
+        A glimpse into marine environments, ocean exploration,
+        and the scientific work that helps us understand
+        our planet's aquatic ecosystems.
+    </p>
+
+    <div class="gallery">
+
+        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=900&q=85"
+        alt="Underwater marine environment">
+
+        <img src="https://images.unsplash.com/photo-1518467166778-b88f373ffec7?auto=format&fit=crop&w=900&q=85"
+        alt="Marine ocean exploration">
+
+        <img src="https://images.unsplash.com/photo-1530053969600-caed2596d242?auto=format&fit=crop&w=900&q=85"
+        alt="Underwater marine ecosystem">
+
+    </div>
+</section>
+
+<!-- PUBLICATIONS -->
+
+<section id="publications">
+    <div class="section-label">Academic Contributions</div>
+    <h2 class="section-title">Publications & Research</h2>
+
+    <p class="section-description">
+        Selected academic publications, research projects,
+        presentations, and scientific contributions.
+    </p>
+
+    <div style="margin-top:35px;">
+
+        <div class="publication">
+            <h3>[Title of Research Publication]</h3>
+            <p>
+                [Author(s)] | [Journal Name] | [Year]
+            </p>
+            <a href="#" target="_blank">VIEW PUBLICATION →</a>
+        </div>
+
+        <div class="publication">
+            <h3>[Title of Research Project]</h3>
+            <p>
+                [Research Institution] | [Year]
+            </p>
+            <a href="#" target="_blank">VIEW RESEARCH →</a>
+        </div>
+
+        <div class="publication">
+            <h3>[Title of Scientific Presentation]</h3>
+            <p>
+                [Conference or Organization] | [Year]
+            </p>
+            <a href="#" target="_blank">LEARN MORE →</a>
+        </div>
+
+    </div>
+</section>
+
+<!-- CONTACT -->
+
+<section class="contact" id="contact">
+    <div class="section-label">Let's Connect</div>
+    <h2 class="section-title">Get In Touch</h2>
+
+    <p class="section-description">
+        I welcome opportunities for scientific collaboration,
+        research partnerships, academic discussions,
+        and professional connections.
+    </p>
+
+    <div class="contact-box">
+
+        <h3>Professional Contact</h3>
+
+        <p>
+            <strong>Email:</strong>
+            <a href="mailto:your.email@example.com">
+                your.email@example.com
+            </a>
+        </p>
+
+        <p>
+            <strong>Institution:</strong>
+            [Your University or Research Institution]
+        </p>
+
+        <p>
+            <strong>Location:</strong>
+            [City, Country]
+        </p>
+
+        <p>
+            <strong>LinkedIn:</strong>
+            <a href="https://www.linkedin.com/" target="_blank">
+                Connect professionally
+            </a>
+        </p>
+
+        <p>
+            <strong>Google Scholar:</strong>
+            <a href="https://scholar.google.com/" target="_blank">
+                View academic profile
+            </a>
+        </p>
+
+    </div>
+</section>
+
+<footer>
+    <p>© <span id="year"></span> [Your Name] | Marine Researcher</p>
+    <p>Advancing Marine Science. Protecting Our Oceans.</p>
+</footer>
+
+<script>
+function toggleMenu() {
+    document.getElementById("navigation").classList.toggle("active");
+}
+
+function closeMenu() {
+    document.getElementById("navigation").classList.remove("active");
+}
+
+document.getElementById("year").textContent =
+    new Date().getFullYear();
+</script>
+
+</body>
+</html>
