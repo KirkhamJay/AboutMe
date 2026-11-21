@@ -101,7 +101,9 @@
   // -------------------------------------------------------
 
   const images = {};
-
+   const dockAtlas = new Image();
+dockAtlas.src = SPRITE_PATH + "harbour_atlas_01_cleaned.png";
+   
   function loadImage(name) {
     const img = new Image();
     img.src = SPRITE_PATH + name + ".png";
@@ -297,7 +299,7 @@
     // Six traffic lanes, with more boats as difficulty rises.
     LANE_ROWS.forEach((row, index) => {
       const direction = index % 2 === 0 ? 1 : -1;
-      const baseSpeed = (0.1 + harbour * 0.1 + index) * 0.04;
+      const baseSpeed = (0.1 + harbour * 0.1 + index) * 0.14;
       const boatCount = Math.min(4, 2 + Math.floor(harbour / 3));
 
       for (let i = 0; i < boatCount; i++) {
@@ -682,15 +684,7 @@
     ctx.fillRect(0, HEIGHT - 64, WIDTH, 8);
 
     // Dock edges.
-    ctx.fillStyle = "#5c5340";
-    ctx.fillRect(0, 64, 18, HEIGHT - 128);
-    ctx.fillRect(WIDTH - 18, 64, 18, HEIGHT - 128);
-
-    ctx.fillStyle = "#8a7957";
-    for (let y = 80; y < HEIGHT - 80; y += 48) {
-      ctx.fillRect(3, y, 12, 5);
-      ctx.fillRect(WIDTH - 15, y, 12, 5);
-    }
+    drawSideDocks();
 
     // Small dock bollards.
     for (let y = 100; y < HEIGHT - 80; y += 128) {
@@ -718,6 +712,45 @@
     }
   }
 
+   function drawSideDocks() {
+  if (!dockAtlas.complete || !dockAtlas.naturalWidth) return;
+
+  // The long stone seawall in harbour_atlas_01_cleaned.png
+  const sourceX = 528;
+  const sourceY = 148;
+  const sourceWidth = 418;
+  const sourceHeight = 80;
+
+  const dockWidth = 78;
+
+  // Left wall: rocky edge faces into the harbour.
+  ctx.save();
+  ctx.translate(dockWidth / 2, HEIGHT / 2);
+  ctx.rotate(-Math.PI / 2);
+
+  ctx.drawImage(
+    dockAtlas,
+    sourceX, sourceY, sourceWidth, sourceHeight,
+    -HEIGHT / 2, -dockWidth / 2,
+    HEIGHT, dockWidth
+  );
+
+  ctx.restore();
+
+  // Right wall: mirrored orientation.
+  ctx.save();
+  ctx.translate(WIDTH - dockWidth / 2, HEIGHT / 2);
+  ctx.rotate(Math.PI / 2);
+
+  ctx.drawImage(
+    dockAtlas,
+    sourceX, sourceY, sourceWidth, sourceHeight,
+    -HEIGHT / 2, -dockWidth / 2,
+    HEIGHT, dockWidth
+  );
+
+  ctx.restore();
+}
   function drawBollard(x, y) {
     ctx.fillStyle = "#263b3b";
     ctx.fillRect(x - 5, y - 5, 10, 12);
