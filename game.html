@@ -1,0 +1,233 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#082b43">
+
+  <title>Harbour Hazard | Jay Kirkham</title>
+
+  <link rel="stylesheet" href="game.css">
+</head>
+
+<body>
+
+  <main class="game-page">
+
+    <header class="game-header">
+
+      <a href="index.html" class="back-link">
+        ← Back to research website
+      </a>
+
+      <p class="eyebrow">A MARINE ARCADE ADVENTURE</p>
+
+      <h1>HARBOUR <span>HAZARD</span></h1>
+
+      <p class="subtitle">
+        Two little explorers. One very busy harbour.
+      </p>
+
+    </header>
+
+
+    <section class="game-layout">
+
+      <div class="game-main">
+
+        <div class="game-hud">
+
+          <div class="hud-item">
+            <span>SCORE</span>
+            <strong id="score">000000</strong>
+          </div>
+
+          <div class="hud-item">
+            <span>CROSSINGS</span>
+            <strong id="crossings">0</strong>
+          </div>
+
+          <div class="hud-item">
+            <span>LIVES</span>
+            <strong id="lives">♥ ♥</strong>
+          </div>
+
+          <div class="hud-item">
+            <span>HARBOUR</span>
+            <strong id="harbour">01</strong>
+          </div>
+
+        </div>
+
+
+        <div class="game-frame">
+
+          <canvas
+            id="game"
+            width="960"
+            height="640"
+            aria-label="Harbour Hazard game area">
+          </canvas>
+
+
+          <div class="game-overlay" id="startOverlay">
+
+            <div class="overlay-card">
+
+              <p class="eyebrow">CHOOSE YOUR EXPLORER</p>
+
+              <h2>Ready to make a splash?</h2>
+
+              <div class="character-options">
+
+                <button
+                  class="character-option selected"
+                  data-character="turtle">
+
+                  <img
+                    src="images/harbour-hazard/turtle_front_1.png"
+                    alt="Pixel art sea turtle">
+
+                  <strong>TURTLE</strong>
+                  <small>Collect jellyfish</small>
+
+                </button>
+
+
+                <button
+                  class="character-option"
+                  data-character="whale">
+
+                  <img
+                    src="images/harbour-hazard/whale_front_1.png"
+                    alt="Pixel art whale">
+
+                  <strong>WHALE</strong>
+                  <small>Collect copepods</small>
+
+                </button>
+
+              </div>
+
+
+              <label for="playerName">YOUR PLAYER NAME</label>
+
+              <input
+                id="playerName"
+                type="text"
+                maxlength="15"
+                placeholder="SeaExplorer"
+                autocomplete="nickname">
+
+              <button id="startButton" class="start-button">
+                START SWIMMING
+              </button>
+
+              <p class="instruction">
+                Arrow keys or WASD to swim
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="game-overlay hidden" id="endOverlay">
+
+            <div class="overlay-card">
+
+              <p class="eyebrow">END OF RUN</p>
+
+              <h2 id="endTitle">The harbour got you!</h2>
+
+              <p id="endSummary"></p>
+
+              <button id="againButton" class="start-button">
+                TRY AGAIN
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="game-controls">
+
+          <span>
+            MOVE: ARROW KEYS / WASD
+          </span>
+
+          <div>
+            <button id="soundButton">♪ SOUND ON</button>
+            <button id="pauseButton" disabled>Ⅱ PAUSE</button>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <aside class="game-sidebar">
+
+        <section class="sidebar-card">
+
+          <p class="eyebrow">THE MISSION</p>
+
+          <h2>Cross the harbour.</h2>
+
+          <p>
+            Swim from the lower shore to the safe water at the top.
+            Every successful crossing takes you to a busier harbour.
+          </p>
+
+          <div class="legend">
+            <p>🛥️ Moving boats</p>
+            <p>🪢 Nets and ropes</p>
+            <p>✨ Bonus collectibles</p>
+          </div>
+
+        </section>
+
+
+        <section class="sidebar-card">
+
+          <p class="eyebrow">YOUR BEST</p>
+
+          <strong id="bestScore">000000</strong>
+
+          <p>Best score on this device</p>
+
+        </section>
+
+
+        <section class="sidebar-card">
+
+          <p class="eyebrow">GLOBAL LEADERBOARD</p>
+
+          <h2>Top 10 captains</h2>
+
+          <div id="leaderboard">
+            <p>Leaderboard coming soon!</p>
+          </div>
+
+        </section>
+
+      </aside>
+
+    </section>
+
+
+    <footer class="game-footer">
+      A little game by Jay Kirkham · Built for curious ocean people
+    </footer>
+
+  </main>
+
+
+  <script src="game.js"></script>
+
+</body>
+</html>
