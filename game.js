@@ -42,7 +42,7 @@
   const COLUMNS = WIDTH / TILE;
 
   const PLAYER_SIZE = 48;
-  const PLAYER_SPEED = 13;
+  const PLAYER_SPEED = 10;
 
   const LANE_ROWS = [2, 3, 4, 5, 6, 7];
   const SAFE_ROWS = [0, 1, 8, 9];
@@ -297,7 +297,7 @@
     // Six traffic lanes, with more boats as difficulty rises.
     LANE_ROWS.forEach((row, index) => {
       const direction = index % 2 === 0 ? 1 : -1;
-      const baseSpeed = 1.15 + harbour * 0.22 + index * 0.08;
+      const baseSpeed = 0.55 + harbour * 0.1 + index * 0.04;
       const boatCount = Math.min(4, 2 + Math.floor(harbour / 3));
 
       for (let i = 0; i < boatCount; i++) {
@@ -366,7 +366,7 @@
 
     const now = performance.now();
 
-    if (now - lastMoveTime < 105) return;
+    if (now - lastMoveTime < 200) return;
     if (Math.abs(player.x - player.targetX) > 3) return;
     if (Math.abs(player.y - player.targetY) > 3) return;
 
@@ -442,7 +442,7 @@
 
   function updateBoats(delta) {
     boats.forEach(boat => {
-      boat.x += boat.speed * delta;
+      boat.x += boat.speed * delta * 0.5;
 
       if (boat.speed > 0 && boat.x > WIDTH + boat.width) {
         boat.x = -boat.width;
