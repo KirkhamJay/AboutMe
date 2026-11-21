@@ -37,10 +37,19 @@ jobs:
           orcid = "0000-0002-2782-526X"
 
           print("Requesting ORCID access token...")
+          client_id = os.environ.get("ORCID_CLIENT_ID", "").strip()
+          client_secret = os.environ.get("ORCID_CLIENT_SECRET", "").strip()
 
-          token_data = urllib.parse.urlencode({
-              "client_id": os.environ["ORCID_CLIENT_ID"],
-              "client_secret": os.environ["ORCID_CLIENT_SECRET"],
+          print("Client ID loaded:", bool(client_id))
+          print("Client ID format:", client_id.startswith("APP-"))
+          print("Client Secret loaded:", bool(client_secret))
+          print("Client Secret length:", len(client_secret))
+          
+          if not client_id or not client_secret:
+              raise ValueError("ORCID credentials are missing from GitHub Secrets.")
+              token_data = urllib.parse.urlencode({
+              "client_id": client_id,
+              "client_secret": client_secret,
               "grant_type": "client_credentials",
               "scope": "/read-public"
           }).encode("utf-8")
