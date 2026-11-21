@@ -690,7 +690,7 @@
       <div class="publication-footer">
         <a href="https://orcid.org/0000-0002-2782-526X"
            target="_blank" rel="noopener noreferrer">
-          View my ORCID record â†’
+          View my ORCID record’
         </a>
       </div>
     </div>
@@ -850,14 +850,14 @@
         name: "DEKAMER",
         coordinates: [36.834, 28.643],
         type: "collaborator",
-        description: "Sea turtle research, rescue, rehabilitation and conservation centre in Dalyan, TÃ¼rkiye.",
+        description: "Sea turtle research, rescue, rehabilitation and conservation centre in Dalyan, Turkiye.",
         website: "https://dekamer.org.tr/index-eng.html"
       }
     ];
 
     function addMapMarker(location) {
       const websiteLink = location.website
-        ? `<p><a href="${location.website}" target="_blank" rel="noopener noreferrer">Visit website â†’</a></p>`
+        ? `<p><a href="${location.website}" target="_blank" rel="noopener noreferrer">Visit website’</a></p>`
         : "";
 
       const popup = `
@@ -943,7 +943,7 @@
             link.href = paper.url;
             link.target = "_blank";
             link.rel = "noopener noreferrer";
-            link.textContent = paper.doi ? "Read paper’" : "View publication’";
+            link.textContent = paper.doi ? "Read paper" : "View publication";
             links.appendChild(link);
           }
 
@@ -952,7 +952,7 @@
             doi.href = "https://doi.org/" + encodeURIComponent(paper.doi);
             doi.target = "_blank";
             doi.rel = "noopener noreferrer";
-            doi.textContent = "DOI â†’";
+            doi.textContent = "DOI";
             links.appendChild(doi);
           }
 
