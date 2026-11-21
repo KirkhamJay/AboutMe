@@ -1,0 +1,444 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700;800&family=Press+Start+2P&display=swap');
+
+:root {
+  --navy: #082b43;
+  --deep: #041d30;
+  --ocean: #07516b;
+  --teal: #21b6ad;
+  --foam: #d9f5ed;
+  --gold: #ffd36e;
+  --muted: #9bbac5;
+  --border: #276073;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 50% 0%, #164c63 0%, #082b43 48%, #041d30 100%);
+  color: #effaf7;
+  font-family: "DM Sans", sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.game-page {
+  max-width: 1400px;
+  margin: auto;
+  padding: 24px clamp(14px, 3vw, 42px) 34px;
+}
+
+/* HEADER */
+
+.game-header {
+  position: relative;
+  text-align: center;
+  padding: 12px 0 25px;
+}
+
+.back-link {
+  position: absolute;
+  left: 0;
+  top: 15px;
+  color: #b7d7dc;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.back-link:hover {
+  color: white;
+}
+
+.eyebrow {
+  font: 10px "DM Mono", monospace;
+  letter-spacing: .17em;
+  color: #78d7ca;
+}
+
+.game-header h1 {
+  font: clamp(22px, 4vw, 42px) "Press Start 2P", monospace;
+  letter-spacing: -.08em;
+  margin: 18px 0;
+  color: #f2fbf8;
+  text-shadow: 4px 4px 0 #075b68;
+}
+
+.game-header h1 span {
+  color: var(--gold);
+}
+
+.subtitle {
+  color: #a8c6d0;
+  font-size: 15px;
+  margin: 0;
+}
+
+/* MAIN LAYOUT */
+
+.game-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 285px;
+  gap: 20px;
+  align-items: start;
+}
+
+.game-main {
+  min-width: 0;
+}
+
+/* SCORE BAR */
+
+.game-hud {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  background: #061f32;
+  border: 1px solid var(--border);
+  border-bottom: 0;
+  border-radius: 12px 12px 0 0;
+  padding: 15px 18px;
+}
+
+.hud-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hud-item span {
+  font: 9px "DM Mono", monospace;
+  letter-spacing: .15em;
+  color: #82b5c1;
+}
+
+.hud-item strong {
+  font: 16px "DM Mono", monospace;
+  color: white;
+}
+
+/* GAME WINDOW */
+
+.game-frame {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid var(--border);
+  background: #063b59;
+  box-shadow: 0 18px 55px #00101d88;
+}
+
+#game {
+  display: block;
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  touch-action: none;
+}
+
+/* OVERLAYS */
+
+.game-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #031b2bdc;
+  padding: 16px;
+}
+
+.game-overlay.hidden {
+  display: none;
+}
+
+.overlay-card {
+  width: min(470px, 100%);
+  background: #092e43;
+  border: 2px solid #3a8290;
+  box-shadow: 8px 8px 0 #021421;
+  padding: clamp(18px, 4vw, 30px);
+  text-align: center;
+}
+
+.overlay-card h2 {
+  font-size: clamp(20px, 3vw, 27px);
+  margin: 12px 0 18px;
+}
+
+/* CHARACTER SELECTOR */
+
+.character-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 15px 0 22px;
+}
+
+.character-option {
+  border: 2px solid #326779;
+  background: #0d4055;
+  color: white;
+  padding: 12px 8px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 7px;
+  transition: .15s ease;
+}
+
+.character-option:hover {
+  background: #155269;
+  transform: translateY(-2px);
+}
+
+.character-option.selected {
+  border-color: var(--gold);
+  background: #155269;
+  box-shadow: inset 0 0 0 2px #ffd36e33;
+}
+
+.character-option img {
+  width: 82px;
+  height: 82px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.character-option strong {
+  font: 11px "Press Start 2P", monospace;
+}
+
+.character-option small {
+  color: #a9d4d4;
+  font-size: 12px;
+}
+
+/* PLAYER NAME */
+
+.overlay-card label {
+  display: block;
+  text-align: left;
+  font: 10px "DM Mono", monospace;
+  letter-spacing: .12em;
+  color: #9fc5ce;
+  margin-bottom: 7px;
+}
+
+.overlay-card input {
+  width: 100%;
+  background: #041f31;
+  border: 1px solid #3a7181;
+  color: white;
+  padding: 12px;
+  font-size: 15px;
+  outline: none;
+  border-radius: 3px;
+}
+
+.overlay-card input:focus {
+  border-color: var(--gold);
+}
+
+/* BUTTONS */
+
+.start-button {
+  width: 100%;
+  margin-top: 15px;
+  background: var(--gold);
+  border: 0;
+  color: #183346;
+  padding: 15px 12px;
+  font: 11px "Press Start 2P", monospace;
+  box-shadow: 4px 4px 0 #956e31;
+  transition: .12s ease;
+}
+
+.start-button:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 #956e31;
+}
+
+.start-button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #956e31;
+}
+
+.instruction {
+  font-size: 11px;
+  line-height: 1.5;
+  color: #9abac5;
+  margin: 16px 0 0;
+}
+
+/* GAME CONTROLS */
+
+.game-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 4px;
+  color: #a9c9d0;
+  font: 10px "DM Mono", monospace;
+  letter-spacing: .05em;
+}
+
+.game-controls > div {
+  display: flex;
+  gap: 8px;
+}
+
+.game-controls button {
+  background: #0b354a;
+  border: 1px solid #326779;
+  color: #d6efeb;
+  padding: 9px 11px;
+  font: 10px "DM Mono", monospace;
+}
+
+.game-controls button:hover:not(:disabled) {
+  background: #155269;
+}
+
+.game-controls button:disabled {
+  opacity: .4;
+  cursor: default;
+}
+
+/* SIDEBAR */
+
+.game-sidebar {
+  display: grid;
+  gap: 12px;
+}
+
+.sidebar-card {
+  background: linear-gradient(145deg, #0d3b50, #082b40);
+  border: 1px solid var(--border);
+  padding: 19px;
+  border-radius: 10px;
+}
+
+.sidebar-card h2 {
+  font-size: 19px;
+  margin: 9px 0;
+}
+
+.sidebar-card p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #b4cbd2;
+  margin: 8px 0 0;
+}
+
+.legend {
+  padding-top: 12px;
+  margin-top: 12px;
+  border-top: 1px solid #285468;
+}
+
+.legend p {
+  margin: 9px 0;
+}
+
+#bestScore {
+  display: block;
+  font: 25px "DM Mono", monospace;
+  color: var(--gold);
+  margin-top: 12px;
+}
+
+#leaderboard {
+  border-top: 1px solid #285468;
+  margin-top: 12px;
+  padding-top: 8px;
+}
+
+#leaderboard p {
+  font-size: 12px;
+  color: #9fbac4;
+}
+
+.game-footer {
+  text-align: center;
+  padding: 22px 0 5px;
+  font-size: 11px;
+  color: #7595a3;
+}
+
+/* TABLET */
+
+@media (max-width: 900px) {
+  .game-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .game-sidebar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .game-footer {
+    grid-column: 1 / -1;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+  .game-page {
+    padding: 12px 10px 24px;
+  }
+
+  .game-header {
+    padding-top: 42px;
+  }
+
+  .back-link {
+    top: 8px;
+  }
+
+  .game-header h1 {
+    font-size: 20px;
+  }
+
+  .game-hud {
+    padding: 11px 9px;
+    gap: 4px;
+  }
+
+  .hud-item span {
+    font-size: 8px;
+  }
+
+  .hud-item strong {
+    font-size: 13px;
+  }
+
+  .game-sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .game-controls {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .character-option img {
+    width: 65px;
+    height: 65px;
+  }
+
+  .overlay-card {
+    padding: 16px;
+  }
+}
