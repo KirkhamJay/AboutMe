@@ -297,7 +297,7 @@
     // Six traffic lanes, with more boats as difficulty rises.
     LANE_ROWS.forEach((row, index) => {
       const direction = index % 2 === 0 ? 1 : -1;
-      const baseSpeed = 0.55 + harbour * 0.1 + index * 0.04;
+      const baseSpeed = 0.1 + harbour * 0.1 + index * 0.04;
       const boatCount = Math.min(4, 2 + Math.floor(harbour / 3));
 
       for (let i = 0; i < boatCount; i++) {
@@ -442,7 +442,7 @@
 
   function updateBoats(delta) {
     boats.forEach(boat => {
-      boat.x += boat.speed * delta * 0.5;
+      boat.x += boat.speed * delta * 0.2;
 
       if (boat.speed > 0 && boat.x > WIDTH + boat.width) {
         boat.x = -boat.width;
