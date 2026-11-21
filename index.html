@@ -1189,5 +1189,94 @@ collaborators.forEach(addMapMarker);
     });
   </script>
 
+<script>
+async function loadPublications() {
+  const status = document.getElementById("publication-status");
+  const container = document.getElementById("publication-list");
+
+  if (!status || !container) return;
+
+  try {
+    const response = await fetch("data/publications.json", {
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error("Could not load publications.");
+    }
+
+    const publications = await response.json();
+
+    container.replaceChildren();
+
+    if (!publications.length) {
+      status.textContent = "No publications are currently listed.";
+      return;
+    }
+
+    status.textContent =
+      `${publications.length} publications retrieved from ORCID.`;
+
+    publications.forEach(paper => {
+      const card = document.createElement("article");
+      card.className = "publication-card";
+
+      const type = document.createElement("span");
+      type.className = "publication-type";
+      type.textContent = (paper.type || "Publication")
+        .replaceAll("_", " ");
+
+      const title = document.createElement("h3");
+      title.textContent = paper.title || "Untitled publication";
+
+      const meta = document.createElement("div");
+      meta.className = "publication-meta";
+
+      const details = [
+        paper.year,
+        paper.journal
+      ].filter(Boolean);
+
+      meta.textContent = details.join(" · ");
+
+      const links = document.createElement("div");
+      links.className = "publication-links";
+
+      if (paper.url && /^https?:\/\//i.test(paper.url)) {
+        const link = document.createElement("a");
+        link.href = paper.url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = paper.doi ? "Read paper ↗" : "View publication ↗";
+        links.appendChild(link);
+      }
+
+      if (paper.doi) {
+        const doi = document.createElement("a");
+        doi.href = "https://doi.org/" + encodeURIComponent(paper.doi);
+        doi.target = "_blank";
+        doi.rel = "noopener noreferrer";
+        doi.textContent = "DOI ↗";
+        links.appendChild(doi);
+      }
+
+      card.append(type, title);
+
+      if (details.length) card.appendChild(meta);
+      if (links.children.length) card.appendChild(links);
+
+      container.appendChild(card);
+    });
+
+  } catch (error) {
+    console.error("Publication loading error:", error);
+    status.textContent =
+      "Unable to load publications. Please try again later.";
+  }
+}
+
+loadPublications();
+</script>
+
 </body>
 </html>
