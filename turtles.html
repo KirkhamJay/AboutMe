@@ -1,0 +1,462 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sea Turtle Research | Jay Kirkham</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy: #102b3a;
+      --deep: #0a1d29;
+      --teal: #3d9b91;
+      --light-teal: #dcefeb;
+      --cream: #f5f7f4;
+      --text: #263b45;
+      --muted: #647780;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .navbar {
+      background: var(--deep);
+      color: white;
+      padding: 20px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .back-link {
+      color: #c6e4df;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .back-link:hover {
+      color: white;
+    }
+
+    .hero {
+      background:
+        linear-gradient(110deg, rgba(7, 29, 39, 0.94), rgba(17, 72, 77, 0.83)),
+        radial-gradient(circle at 80% 40%, #438f83, #102b3a);
+      color: white;
+      padding: 100px 7% 110px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "🐢";
+      position: absolute;
+      right: 9%;
+      top: 50%;
+      transform: translateY(-50%) rotate(-12deg);
+      font-size: clamp(120px, 19vw, 250px);
+      opacity: 0.16;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      max-width: 780px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      color: #a9dcd2;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Playfair Display', serif;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: clamp(2.7rem, 6vw, 4.8rem);
+      margin-bottom: 22px;
+    }
+
+    .hero p {
+      color: #e0eeeb;
+      font-size: 1.15rem;
+      max-width: 650px;
+    }
+
+    .content {
+      max-width: 1100px;
+      margin: auto;
+      padding: 75px 7%;
+    }
+
+    .section {
+      margin-bottom: 65px;
+    }
+
+    .section-label {
+      color: var(--teal);
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      color: var(--navy);
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      color: var(--navy);
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+    }
+
+    .intro {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 850px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+      margin-top: 30px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      border: 1px solid #e2eae6;
+      box-shadow: 0 8px 25px rgba(16, 43, 58, 0.045);
+    }
+
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+
+    .card p {
+      color: var(--muted);
+    }
+
+    .location-panel {
+      background: var(--light-teal);
+      border-radius: 18px;
+      padding: 35px;
+      margin-top: 25px;
+    }
+
+    .location-panel p {
+      max-width: 800px;
+    }
+
+    .location-name {
+      color: var(--navy);
+      font-weight: 700;
+      margin-top: 15px;
+    }
+
+    .app-panel {
+      background: var(--navy);
+      color: white;
+      border-radius: 18px;
+      padding: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 30px;
+      margin-top: 25px;
+    }
+
+    .app-panel h3 {
+      color: white;
+    }
+
+    .app-panel p {
+      color: #d0e0e2;
+      max-width: 600px;
+    }
+
+    .button {
+      display: inline-block;
+      background: var(--teal);
+      color: white;
+      text-decoration: none;
+      padding: 13px 22px;
+      border-radius: 7px;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .button:hover {
+      background: #307e76;
+      transform: translateY(-2px);
+    }
+
+    .collaboration {
+      background: white;
+      border-left: 5px solid var(--teal);
+      padding: 30px;
+      border-radius: 0 12px 12px 0;
+      margin-top: 25px;
+    }
+
+    .collaboration a {
+      color: #247c75;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .collaboration a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      background: var(--deep);
+      color: #c4d3d5;
+      padding: 35px 7%;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: #a9dcd2;
+      text-decoration: none;
+    }
+
+    @media (max-width: 700px) {
+      .navbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero {
+        padding: 75px 7%;
+      }
+
+      .hero::after {
+        right: 2%;
+        top: 75%;
+        font-size: 130px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .app-panel {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 30px;
+      }
+
+      .content {
+        padding-top: 55px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <a class="brand" href="index.html">Jay Kirkham</a>
+    <a class="back-link" href="index.html">← Back to homepage</a>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-content">
+      <div class="eyebrow">Research · Conservation · Fieldwork</div>
+      <h1>Mediterranean Sea Turtle Research</h1>
+      <p>
+        Exploring sea turtle ecology, movement and conservation,
+        bringing together fieldwork, spatial data and technology
+        to better understand the challenges facing marine wildlife.
+      </p>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <section class="section">
+      <div class="section-label">The research</div>
+      <h2>Understanding sea turtles and their environment</h2>
+      <p class="intro">
+        My work with sea turtles has involved exploring their ecology
+        and conservation in the Mediterranean. I am particularly
+        interested in how research, tracking data and spatial tools
+        can help us understand marine animals and support their
+        conservation.
+      </p>
+
+      <div class="cards">
+        <article class="card">
+          <div class="card-icon">🌊</div>
+          <h3>Marine ecology</h3>
+          <p>
+            Understanding sea turtles in the wider marine environment
+            and the ecological processes that shape their lives.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">📍</div>
+          <h3>Tracking and spatial data</h3>
+          <p>
+            Using spatial information and mapping tools to explore
+            animal movements and make research data more accessible.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">🔬</div>
+          <h3>Research and analysis</h3>
+          <p>
+            Bringing together scientific observations, data analysis
+            and practical research to investigate marine wildlife.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">🐢</div>
+          <h3>Conservation</h3>
+          <p>
+            Connecting ecological research with the real-world
+            challenges of protecting sea turtles and their habitats.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-label">Fieldwork and geography</div>
+      <h2>Working in the Mediterranean</h2>
+
+      <div class="location-panel">
+        <h3>Dalyan, Türkiye</h3>
+        <p>
+          Dalyan is an important location in my Mediterranean sea
+          turtle work. My experience here has helped connect
+          field-based research with the broader questions of
+          marine ecology and conservation.
+        </p>
+        <div class="location-name">Mediterranean Sea · Türkiye</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-label">Research tools</div>
+      <h2>Making research interactive</h2>
+      <p class="intro">
+        I enjoy developing tools that make ecological data easier
+        to explore, interpret and communicate.
+      </p>
+
+      <div class="app-panel">
+        <div>
+          <h3>Mediterranean Turtle Map</h3>
+          <p>
+            Explore my interactive sea turtle mapping project,
+            built with R Shiny to make spatial research data
+            accessible through an interactive interface.
+          </p>
+        </div>
+        <a class="button"
+           href="https://0uq6q4-jay-kirkham.shinyapps.io/Med_Turtle_Map/"
+           target="_blank"
+           rel="noopener noreferrer">
+          Open Turtle Map →
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-label">Collaboration</div>
+      <h2>Working together for conservation</h2>
+
+      <div class="collaboration">
+        <h3>DEKAMER</h3>
+        <p>
+          I have been involved in work connected with DEKAMER,
+          the Sea Turtle Research, Rescue and Rehabilitation Centre
+          in Türkiye. Their work focuses on sea turtle research,
+          rescue, rehabilitation and conservation.
+        </p>
+        <p style="margin-top: 15px;">
+          <a href="https://dekamer.org.tr/index-eng.html"
+             target="_blank"
+             rel="noopener noreferrer">
+            Visit the DEKAMER website →
+          </a>
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-label">More research</div>
+      <h2>From turtles to whales</h2>
+      <p class="intro">
+        My research interests extend across marine megafauna.
+        You can also explore my work on North Atlantic right whales.
+      </p>
+      <p style="margin-top: 22px;">
+        <a class="button" href="whales.html">Explore my whale research →</a>
+      </p>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Jay Kirkham · Marine Research</p>
+    <p style="margin-top: 8px;">
+      <a href="index.html">Homepage</a>
+      &nbsp;·&nbsp;
+      <a href="https://orcid.org/0000-0002-2782-526X"
+         target="_blank"
+         rel="noopener noreferrer">ORCID</a>
+    </p>
+  </footer>
+
+</body>
+</html>
