@@ -1,0 +1,138 @@
+
+name: Update ORCID publications
+
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-publications:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out website
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Retrieve publications from ORCID
+        env:
+          ORCID_CLIENT_ID: ${{ secrets.ORCID_CLIENT_ID }}
+          ORCID_CLIENT_SECRET: ${{ secrets.ORCID_CLIENT_SECRET }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import urllib.request
+          import urllib.parse
+
+          orcid = "0000-0002-2782-526X"
+
+          token_data = urllib.parse.urlencode({
+              "client_id": os.environ["ORCID_CLIENT_ID"],
+              "client_secret": os.environ["ORCID_CLIENT_SECRET"],
+              "grant_type": "client_credentials",
+              "scope": "/read-public"
+          }).encode()
+
+          token_request = urllib.request.Request(
+              "https://orcid.org/oauth/token",
+              data=token_data,
+              headers={"Accept": "application/json"}
+          )
+
+          with urllib.request.urlopen(token_request) as response:
+              token = json.loads(response.read())["access_token"]
+
+          works_request = urllib.request.Request(
+              f"https://pub.orcid.org/v3.0/{orcid}/works",
+              headers={
+                  "Accept": "application/vnd.orcid+json",
+                  "Authorization": f"Bearer {token}"
+              }
+          )
+
+          with urllib.request.urlopen(works_request) as response:
+              record = json.loads(response.read())
+
+          publications = []
+
+          for group in record.get("group", []):
+              summaries = group.get("work-summary", [])
+              if not summaries:
+                  continue
+
+              work = summaries[0]
+
+              title_data = work.get("title") or {}
+              title = (title_data.get("title") or {}).get("value")
+
+              if not title:
+                  continue
+
+              publication_date = work.get("publication-date") or {}
+              year_data = publication_date.get("year") or {}
+              year = year_data.get("value", "")
+
+              journal_data = work.get("journal-title") or {}
+              journal = journal_data.get("value", "")
+
+              external_ids = (
+                  work.get("external-ids") or {}
+              ).get("external-id", [])
+
+              doi = next(
+                  (
+                      item.get("external-id-value")
+                      for item in external_ids
+                      if item.get("external-id-type", "").lower() == "doi"
+                  ),
+                  ""
+              )
+
+              url = (
+                  f"https://doi.org/{doi}"
+                  if doi
+                  else (work.get("url") or {}).get("value", "")
+              )
+
+              publications.append({
+                  "title": title,
+                  "year": year,
+                  "journal": journal,
+                  "doi": doi,
+                  "url": url,
+                  "type": work.get("type", "")
+              })
+
+          publications.sort(
+              key=lambda item: item["year"],
+              reverse=True
+          )
+
+          os.makedirs("data", exist_ok=True)
+
+          with open("data/publications.json", "w", encoding="utf-8") as file:
+              json.dump(publications, file, indent=2, ensure_ascii=False)
+
+          print(f"Retrieved {len(publications)} ORCID publications.")
+          PY
+
+      - name: Commit updated publications
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/publications.json
+          if git diff --cached --quiet; then
+            echo "No publication changes."
+          else
+            git commit -m "Update ORCID publications"
+            git push
+          fi
