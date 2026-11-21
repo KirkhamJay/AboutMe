@@ -108,23 +108,21 @@ boatAtlas.src = SPRITE_PATH + "harbour_atlas_02_cleaned.png";
 // Individual boat sprites cropped from the atlas.
 // Coordinates refer to the original 1536 x 1024 image.
 const BOAT_SPRITES = [
-  // Row 1
-  { x: 145, y: 435, w: 140, h: 155 },
-  { x: 285, y: 435, w: 165, h: 155 },
-  { x: 450, y: 410, w: 190, h: 180 },
-  { x: 640, y: 400, w: 230, h: 190 },
+const BOAT_SPRITES = [
+  { x: 132, y: 455, w: 130, h: 111 },
+  { x: 129, y: 580, w: 162, h: 115 },
+  { x: 131, y: 698, w: 168, h: 148 },
+  { x: 311, y: 573, w: 217, h: 134 },
+  { x: 320, y: 723, w: 216, h: 127 },
 
-  // Row 2
-  { x: 145, y: 575, w: 145, h: 150 },
-  { x: 290, y: 575, w: 170, h: 150 },
-  { x: 460, y: 575, w: 190, h: 155 },
-  { x: 650, y: 565, w: 225, h: 160 },
+  // Two larger boats in the same atlas section
+  { x: 529, y: 417, w: 240, h: 150 },
+  { x: 529, y: 567, w: 240, h: 152 },
 
-  // Row 3
-  { x: 145, y: 700, w: 160, h: 165 },
-  { x: 305, y: 700, w: 240, h: 170 },
-  { x: 545, y: 700, w: 255, h: 175 },
-  { x: 800, y: 690, w: 280, h: 190 }
+  { x: 785, y: 388, w: 284, h: 174 },
+  { x: 803, y: 567, w: 263, h: 140 },
+  { x: 817, y: 710, w: 256, h: 152 },
+  { x: 557, y: 732, w: 226, h: 130 }
 ];
    const dockAtlas = new Image();
 dockAtlas.src = SPRITE_PATH + "harbour_atlas_01_cleaned.png";
