@@ -28,7 +28,7 @@
     html { scroll-behavior: smooth; scroll-padding-top: 85px; }
 
     body {
-      font-family: "Sans DM", sans-serif;
+      font-family: "DM Sans", sans-serif;
       color: var(--text);
       background: var(--cream);
       line-height: 1.7;
@@ -261,71 +261,43 @@
     /* Fieldwork */
     .fieldwork-grid {
       display: grid;
-      grid-template-columns: repeat(3, 2fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
     }
 
-    <section class="fieldwork-section" id="fieldwork">
-  <div class="section-heading">
-    <span class="section-label">Out in the field</span>
-    <h2>Fieldwork & Photography</h2>
-    <p>A glimpse of the places, people and wildlife behind my research.</p>
-  </div>
+    .fieldwork-photo {
+      min-width: 0;
+      margin: 0;
+      overflow: hidden;
+      background: var(--white);
+      border: 1px solid #dce7e3;
+      border-radius: 10px;
+      box-shadow: 0 8px 25px rgba(16, 43, 58, 0.08);
+    }
 
-  <div class="fieldwork-gallery">
+    .fieldwork-photo img {
+      display: block;
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+    }
 
-    <figure class="fieldwork-photo">
-      <img src="images/fieldwork-01.JPG" alt="Drone based tagging of North Atlantic right whale">
-      <figcaption>
-        <h3>"Tag Dropping"</h3>
-        <p>Write your caption here.</p>
-      </figcaption>
-    </figure>
+    .fieldwork-photo figcaption {
+      padding: 20px;
+    }
 
-    <figure class="fieldwork-photo">
-      <img src="images/fieldwork-02.jpg" alt="Close up of a copepod sample collected close to feeding whales">
-      <figcaption>
-        <h3>"What's on the menu?"</h3>
-        <p>"A close to monoculture of late-stage Calanus finmarchicus."</p>
-      </figcaption>
-    </figure>
+    .fieldwork-photo h3 {
+      color: var(--navy);
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
 
-    <figure class="fieldwork-photo">
-      <img src="images/fieldwork-03.JPG" alt="Add your image description">
-      <figcaption>
-        <h3>Your photo title</h3>
-        <p>Write your caption here.</p>
-      </figcaption>
-    </figure>
+    .fieldwork-photo p {
+      color: var(--muted);
+      line-height: 1.6;
+    }
 
-    <figure class="fieldwork-photo">
-      <img src="images/fieldwork-04.JPG" alt="Add your image description">
-      <figcaption>
-        <h3>Your photo title</h3>
-        <p>Write your caption here.</p>
-      </figcaption>
-    </figure>
-
-    <figure class="fieldwork-photo">
-      <img src="images/fieldwork-05.JPG" alt="Add your image description">
-      <figcaption>
-        <h3>Your photo title</h3>
-        <p>Write your caption here.</p>
-      </figcaption>
-    </figure>
-
-    <figure class="fieldwork-photo">
-      <img src="images/fieldwork-06.JPG" alt="Add your image description">
-      <figcaption>
-        <h3>Your photo title</h3>
-        <p>Write your caption here.</p>
-      </figcaption>
-    </figure>
-
-  </div>
-</section>
-
-    /* Publications */
+        /* Publications */
     .publications-section { background: white; }
 
     .publication-list {
@@ -517,6 +489,7 @@
 
       .nav-links { gap: 12px 17px; }
       .about-grid { grid-template-columns: 1fr 1fr; }
+      .fieldwork-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .hero { min-height: 550px; }
     }
 
@@ -528,80 +501,7 @@
       #world-map { height: 400px; }
       .research-card { min-height: 260px; }
     }
-    /* FIELDWORK PHOTO GALLERY */
-
-.fieldwork-section {
-  padding: 90px 8%;
-  background: var(--light-teal);
-}
-
-.fieldwork-section .section-heading {
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto 45px;
-}
-
-.fieldwork-gallery {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 28px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.fieldwork-photo {
-  margin: 0;
-  background: white;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.fieldwork-photo:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.13);
-}
-
-.fieldwork-photo img {
-  display: block;
-  width: 100%;
-  height: 260px;
-  object-fit: cover;
-}
-
-.fieldwork-photo figcaption {
-  padding: 20px;
-}
-
-.fieldwork-photo h3 {
-  margin: 0 0 8px;
-  color: var(--navy);
-  font-family: 'Playfair Display', serif;
-}
-
-.fieldwork-photo p {
-  margin: 0;
-  line-height: 1.6;
-  color: var(--text-secondary);
-}
-
-@media (max-width: 850px) {
-  .fieldwork-gallery {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 550px) {
-  .fieldwork-gallery {
-    grid-template-columns: 1fr;
-  }
-
-  .fieldwork-section {
-    padding: 65px 6%;
-  }
-}
-  </style>
+    </style>
 </head>
 
 <body>
@@ -690,7 +590,7 @@
             Explore my Mediterranean sea turtle work, including
             fieldwork, conservation, and interactive mapping.
           </p>
-          <span class="text-link">Explore turtle research’</span>
+          <span class="text-link">Explore turtle research â†’</span>
         </a>
 
         <a class="research-card" href="whales.html">
@@ -702,7 +602,7 @@
             Discover my work on North Atlantic right whale behaviour,
             foraging ecology, field research and data analysis.
           </p>
-          <span class="text-link">Explore whale research’</span>
+          <span class="text-link">Explore whale research â†’</span>
         </a>
       </div>
     </div>
@@ -721,9 +621,53 @@
       </div>
 
       <div class="fieldwork-grid">
-        <div class="fieldwork-photo">Add fieldwork photo 1</div>
-        <div class="fieldwork-photo">Add fieldwork photo 2</div>
-        <div class="fieldwork-photo">Add fieldwork photo 3</div>
+        <figure class="fieldwork-photo">
+          <img src="images/fieldwork-01.JPG" alt="Drone-based tagging of a North Atlantic right whale">
+          <figcaption>
+            <h3>Tag Dropping</h3>
+            <p>Write your caption here.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="fieldwork-photo">
+          <img src="images/fieldwork-02.jpg" alt="Close-up of a copepod sample collected near feeding whales">
+          <figcaption>
+            <h3>What's on the menu?</h3>
+            <p>A close-to-monoculture of late-stage <em>Calanus finmarchicus</em>.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="fieldwork-photo">
+          <img src="images/fieldwork-03.JPG" alt="Add your image description">
+          <figcaption>
+            <h3>Your photo title</h3>
+            <p>Write your caption here.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="fieldwork-photo">
+          <img src="images/fieldwork-04.JPG" alt="Add your image description">
+          <figcaption>
+            <h3>Your photo title</h3>
+            <p>Write your caption here.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="fieldwork-photo">
+          <img src="images/fieldwork-05.JPG" alt="Add your image description">
+          <figcaption>
+            <h3>Your photo title</h3>
+            <p>Write your caption here.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="fieldwork-photo">
+          <img src="images/fieldwork-06.JPG" alt="Add your image description">
+          <figcaption>
+            <h3>Your photo title</h3>
+            <p>Write your caption here.</p>
+          </figcaption>
+        </figure>
       </div>
     </div>
   </section>
@@ -914,7 +858,7 @@
 
     function addMapMarker(location) {
       const websiteLink = location.website
-        ? `<p><a href="${location.website}" target="_blank" rel="noopener noreferrer">Visit website â†—</a></p>`
+        ? `<p><a href="${location.website}" target="_blank" rel="noopener noreferrer">Visit website â†’</a></p>`
         : "";
 
       const popup = `
@@ -1000,7 +944,7 @@
             link.href = paper.url;
             link.target = "_blank";
             link.rel = "noopener noreferrer";
-            link.textContent = paper.doi ? "Read paper â†—" : "View publication â†—";
+            link.textContent = paper.doi ? "Read paper â†’" : "View publication â†’";
             links.appendChild(link);
           }
 
@@ -1009,7 +953,7 @@
             doi.href = "https://doi.org/" + encodeURIComponent(paper.doi);
             doi.target = "_blank";
             doi.rel = "noopener noreferrer";
-            doi.textContent = "DOI â†—";
+            doi.textContent = "DOI â†’";
             links.appendChild(doi);
           }
 
