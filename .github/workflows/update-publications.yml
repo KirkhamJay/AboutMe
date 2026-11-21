@@ -20,7 +20,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
+          python-version: "3.12"
 
       - name: Retrieve publications from ORCID
         env:
@@ -30,32 +30,43 @@ jobs:
           python - <<'PY'
           import json
           import os
-          import urllib.error
           import urllib.request
           import urllib.parse
+          import urllib.error
 
           orcid = "0000-0002-2782-526X"
+
+          print("Requesting ORCID access token...")
 
           token_data = urllib.parse.urlencode({
               "client_id": os.environ["ORCID_CLIENT_ID"],
               "client_secret": os.environ["ORCID_CLIENT_SECRET"],
               "grant_type": "client_credentials",
               "scope": "/read-public"
-          }).encode()
+          }).encode("utf-8")
 
           token_request = urllib.request.Request(
               "https://orcid.org/oauth/token",
               data=token_data,
-              headers={"Accept": "application/json"}
+              headers={
+                  "Accept": "application/json",
+                  "Content-Type": "application/x-www-form-urlencoded"
+              }
           )
 
           try:
-    with urllib.request.urlopen(token_request) as response:
-        token = json.loads(response.read())["access_token"]
-except urllib.error.HTTPError as error:
-    print("ORCID response:", error.code)
-    print(error.read().decode("utf-8"))
-    raise
+              with urllib.request.urlopen(token_request) as response:
+                  token_response = json.loads(response.read())
+                  token = token_response["access_token"]
+                  print("ORCID authentication successful.")
+
+          except urllib.error.HTTPError as error:
+              print("ORCID token request failed.")
+              print("HTTP status:", error.code)
+              print("ORCID response:", error.read().decode("utf-8"))
+              raise
+
+          print("Retrieving public ORCID works...")
 
           works_request = urllib.request.Request(
               f"https://pub.orcid.org/v3.0/{orcid}/works",
@@ -65,13 +76,21 @@ except urllib.error.HTTPError as error:
               }
           )
 
-          with urllib.request.urlopen(works_request) as response:
-              record = json.loads(response.read())
+          try:
+              with urllib.request.urlopen(works_request) as response:
+                  record = json.loads(response.read())
+
+          except urllib.error.HTTPError as error:
+              print("ORCID works request failed.")
+              print("HTTP status:", error.code)
+              print("ORCID response:", error.read().decode("utf-8"))
+              raise
 
           publications = []
 
           for group in record.get("group", []):
               summaries = group.get("work-summary", [])
+
               if not summaries:
                   continue
 
@@ -125,17 +144,29 @@ except urllib.error.HTTPError as error:
 
           os.makedirs("data", exist_ok=True)
 
-          with open("data/publications.json", "w", encoding="utf-8") as file:
-              json.dump(publications, file, indent=2, ensure_ascii=False)
+          with open(
+              "data/publications.json",
+              "w",
+              encoding="utf-8"
+          ) as file:
+              json.dump(
+                  publications,
+                  file,
+                  indent=2,
+                  ensure_ascii=False
+              )
 
-          print(f"Retrieved {len(publications)} ORCID publications.")
+          print(f"Successfully retrieved {len(publications)} publications.")
+
           PY
 
       - name: Commit updated publications
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git add data/publications.json
+
           if git diff --cached --quiet; then
             echo "No publication changes."
           else
