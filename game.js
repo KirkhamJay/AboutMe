@@ -101,6 +101,22 @@
   // -------------------------------------------------------
 
   const images = {};
+   // Original Harbour Hazard boat artwork
+const boatAtlas = new Image();
+boatAtlas.src = SPRITE_PATH + "harbour_atlas_02_cleaned.png";
+
+// Individual boat sprites cropped from the atlas.
+// Coordinates refer to the original 1536 x 1024 image.
+const BOAT_SPRITES = [
+  { x: 125, y: 440, w: 145, h: 130 },
+  { x: 280, y: 420, w: 230, h: 155 },
+  { x: 520, y: 420, w: 250, h: 155 },
+  { x: 780, y: 390, w: 310, h: 190 },
+  { x: 125, y: 555, w: 175, h: 150 },
+  { x: 300, y: 550, w: 235, h: 160 },
+  { x: 545, y: 550, w: 245, h: 165 },
+  { x: 800, y: 550, w: 290, h: 165 }
+];
    const dockAtlas = new Image();
 dockAtlas.src = SPRITE_PATH + "harbour_atlas_01_cleaned.png";
    
@@ -315,8 +331,9 @@ dockAtlas.src = SPRITE_PATH + "harbour_atlas_01_cleaned.png";
           direction,
           smokeOffset: random(0, 5),
           smokeDrift: random(0, 20),
-          colour: Math.random() > 0.5 ? "#d6d5c8" : "#b8c8c6",
-          cabin: Math.random() > 0.5
+          spriteIndex: Math.floor(random(0, BOAT_SPRITES.length)),
+             colour: Math.random() > 0.5 ? "#d6d5c8" : "#b8c8c6",
+              cabin: Math.random() > 0.5
         });
       }
     });
@@ -786,60 +803,55 @@ dockAtlas.src = SPRITE_PATH + "harbour_atlas_01_cleaned.png";
     ctx.restore();
   }
 
-  function drawBoat(boat) {
-    ctx.save();
+    function drawBoat(boat) {
+  ctx.save();
 
-    // Smoke behind the boat.
-    drawSmoke(boat);
+  // Keep the existing animated exhaust behind the boat.
+  drawSmoke(boat);
 
-    const x = boat.x;
-    const y = boat.y;
-    const w = boat.width;
-    const h = boat.height;
-
-    // Wake.
-    ctx.globalAlpha = 0.45;
-    ctx.fillStyle = "#a8d9d7";
-    ctx.fillRect(x - w / 2, y + h / 2 + 4, w, 3);
-    ctx.globalAlpha = 1;
-
-    // Hull.
-    ctx.fillStyle = "#263b45";
-    ctx.fillRect(x - w / 2, y - h / 2, w, h);
-    ctx.fillStyle = "#bd4e39";
-    ctx.fillRect(x - w / 2 + 7, y + h / 2 - 8, w - 14, 7);
-
-    // Deck.
-    ctx.fillStyle = boat.colour;
-    ctx.fillRect(x - w / 2 + 10, y - h / 2 + 4, w - 20, h - 12);
-
-    // Cabin.
-    if (boat.cabin) {
-      ctx.fillStyle = "#e4dfc9";
-      ctx.fillRect(x - 15, y - h / 2 - 13, 36, 18);
-      ctx.fillStyle = "#456a75";
-      ctx.fillRect(x - 9, y - h / 2 - 10, 10, 8);
-      ctx.fillRect(x + 5, y - h / 2 - 10, 10, 8);
-      ctx.fillStyle = "#263d47";
-      ctx.fillRect(x - 19, y - h / 2 + 3, 44, 3);
-    }
-
-    // Fishing equipment / deck details.
-    ctx.fillStyle = "#5b6c68";
-    ctx.fillRect(x - w / 2 + 22, y - 3, 15, 5);
-    ctx.fillRect(x + w / 2 - 35, y - 3, 13, 5);
-
-    // Direction light.
-    ctx.fillStyle = "#f4d56e";
-    ctx.fillRect(
-      boat.speed > 0 ? x + w / 2 - 5 : x - w / 2 + 1,
-      y - 4,
-      4,
-      4
-    );
-
+  if (!boatAtlas.complete || !boatAtlas.naturalWidth) {
     ctx.restore();
+    return;
   }
+
+  const sprite = BOAT_SPRITES[boat.spriteIndex || 0];
+
+  const scale = Math.min(
+    boat.width / sprite.w,
+    60 / sprite.h
+  );
+
+  const drawWidth = sprite.w * scale;
+  const drawHeight = sprite.h * scale;
+
+  ctx.imageSmoothingEnabled = false;
+
+  // Flip boats travelling in the opposite direction.
+  if (boat.speed < 0) {
+    ctx.translate(boat.x, boat.y);
+    ctx.scale(-1, 1);
+
+    ctx.drawImage(
+      boatAtlas,
+      sprite.x, sprite.y, sprite.w, sprite.h,
+      -drawWidth / 2,
+      -drawHeight / 2,
+      drawWidth,
+      drawHeight
+    );
+  } else {
+    ctx.drawImage(
+      boatAtlas,
+      sprite.x, sprite.y, sprite.w, sprite.h,
+      boat.x - drawWidth / 2,
+      boat.y - drawHeight / 2,
+      drawWidth,
+      drawHeight
+    );
+  }
+
+  ctx.restore();
+}
 
   // -------------------------------------------------------
   // DRAWING: NETS AND ROPES
