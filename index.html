@@ -933,7 +933,7 @@
           meta.className = "publication-meta";
 
           const details = [paper.year, paper.journal].filter(Boolean);
-          meta.textContent = details.join(" Â· ");
+          meta.textContent = details.join(" | ");
 
           const links = document.createElement("div");
           links.className = "publication-links";
