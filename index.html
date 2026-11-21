@@ -16,6 +16,95 @@
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   >
+  
+/* ==============================
+   ORCID PUBLICATIONS
+   ============================== */
+
+.publication-list {
+  display: grid;
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.publication-card {
+  background: #ffffff;
+  border: 1px solid #e2e9ed;
+  border-left: 4px solid #2879b9;
+  border-radius: 8px;
+  padding: 24px 26px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.publication-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 40, 60, 0.08);
+}
+
+.publication-card h3 {
+  color: #12364a;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  margin: 0 0 12px;
+}
+
+.publication-meta {
+  color: #637783;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+
+.publication-type {
+  display: inline-block;
+  background: #eaf3f5;
+  color: #2879b9;
+  border-radius: 20px;
+  padding: 4px 11px;
+  font-size: 0.75rem;
+  margin-bottom: 12px;
+}
+
+.publication-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 12px;
+}
+
+.publication-links a,
+.publication-footer a {
+  color: #2879b9;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.publication-links a:hover,
+.publication-footer a:hover {
+  text-decoration: underline;
+}
+
+.publication-note {
+  color: #637783;
+  margin: 15px 0;
+  font-size: 0.95rem;
+}
+
+.publication-footer {
+  margin-top: 25px;
+}
+
+@media (max-width: 600px) {
+  .publication-card {
+    padding: 18px;
+  }
+
+  .publication-card h3 {
+    font-size: 1.05rem;
+  }
+}
 
   <style>
     :root {
